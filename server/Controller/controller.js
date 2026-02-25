@@ -1,5 +1,6 @@
 
 const { Category, Question } = require('../models');
+const { GoogleGenAI } = require("@google/genai");
 
 class Controller {
     static async getCategories(req, res) {
@@ -30,6 +31,26 @@ class Controller {
             
         }
     }
-}
+
+
+
+
+    static async  generateHint(req, res) {
+        try {
+            const {prompt} = req.body
+            const ai = new GoogleGenAI({
+                apiKey: process.env.GOOGLE_API_KEY,
+            });
+            const response = await ai.models.generateContent({
+                model: "gemini-3-flash-preview",
+                contents: "Explain how AI works in a few words",
+            });
+            console.log(response.text);
+            res.status(200).json({ hint: response.text });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    }
 
 module.exports = Controller;

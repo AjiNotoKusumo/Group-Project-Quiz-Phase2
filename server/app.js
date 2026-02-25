@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const { createServer } = require("http");
@@ -14,6 +15,7 @@ app.use(express.urlencoded({extended:true}))
 
 app.get('/categories', Controller.getCategories)
 app.get('/categories/:id', Controller.getQuestions)
+app.post('/generate-hint', Controller.generateHint)
 
 
 const httpServer = createServer(app);
