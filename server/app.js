@@ -3,6 +3,18 @@ const app = express()
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 const port = 3000
+const Controller = require('./Controller/controller')
+const cors = require('cors')
+
+app.use(cors())
+
+// routes
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+
+app.get('/categories', Controller.getCategories)
+app.get('/categories/:id', Controller.getQuestions)
+
 
 const httpServer = createServer(app);
 const io = new Server(httpServer, { 
