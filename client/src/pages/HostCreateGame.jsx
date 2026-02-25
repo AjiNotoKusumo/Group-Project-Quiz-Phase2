@@ -1,13 +1,23 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router';
+import { motion } from 'framer-motion';
+import { ThemeContext } from '../context/ThemeContext';
 
 export default function HostCreateGame() {
   const navigate = useNavigate();
+  const { theme, toggleTheme, currentTheme } = useContext(ThemeContext);
   const [title, setTitle] = useState('');
   const [quizId, setQuizId] = useState('');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-200 via-teal-200 to-blue-200 flex items-center justify-center">
+    <div className={`min-h-screen ${theme.background} flex items-center justify-center`}>
+      {/* Theme Toggle Button */}
+      <button
+        onClick={toggleTheme}
+        className={`fixed top-6 right-6 px-6 py-3 rounded-full ${theme.accent} text-white font-semibold shadow-lg z-50 transition-all hover:scale-105`}
+      >
+        {currentTheme === 'blue' ? '💙 Blue' : '💗 Pink'}
+      </button>
       <motion.div
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -38,7 +48,7 @@ export default function HostCreateGame() {
 
         <button
           onClick={() => navigate('/quiz')}
-          className="w-full py-3 rounded-xl bg-emerald-500 text-white font-semibold hover:bg-emerald-600 transition"
+          className={`w-full py-3 rounded-xl ${theme.primary} text-white font-semibold transition`}
         >
           🚀 Start Game Session
         </button>

@@ -1,9 +1,11 @@
 import { useNavigate } from 'react-router';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { ThemeContext } from '../context/ThemeContext';
 
 export default function QuizPage() {
   const navigate = useNavigate();
+  const { theme, toggleTheme, currentTheme } = useContext(ThemeContext);
 
   const [chatInput, setChatInput] = useState('');
   const [messages, setMessages] = useState([
@@ -24,7 +26,14 @@ export default function QuizPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-100 via-pink-100 to-purple-100 flex flex-col items-center justify-center p-6">
+    <div className={`min-h-screen ${theme.background} flex flex-col items-center justify-center p-6`}>
+      {/* Theme Toggle Button */}
+      <button
+        onClick={toggleTheme}
+        className={`fixed top-6 right-6 px-6 py-3 rounded-full ${theme.accent} text-white font-semibold shadow-lg z-50 transition-all hover:scale-105`}
+      >
+        {currentTheme === 'blue' ? '💙 Blue' : '💗 Pink'}
+      </button>
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -34,14 +43,17 @@ export default function QuizPage() {
         <div className="md:col-span-2">
           <div className="flex justify-between mb-4">
             <span className="font-semibold">Question 1 / 5</span>
-            <span className="text-pink-500 font-bold">⏱ 12s</span>
+            <span className={`${theme.textLight} font-bold`}>⏱ 12s</span>
           </div>
 
           <h2 className="text-2xl font-bold mb-6">What is the capital of Japan?</h2>
 
           <div className="grid grid-cols-2 gap-4">
             {['Tokyo', 'Kyoto', 'Osaka', 'Nagoya'].map((opt) => (
-              <button key={opt} className="p-4 rounded-2xl border hover:bg-indigo-50 transition font-semibold">
+              <button
+                key={opt}
+                className={`p-4 rounded-2xl border ${theme.border} hover:${theme.highlight} transition font-semibold`}
+              >
                 {opt}
               </button>
             ))}
@@ -49,7 +61,7 @@ export default function QuizPage() {
 
           <button
             onClick={() => navigate('/leaderboard')}
-            className="mt-8 w-full py-3 rounded-xl bg-pink-500 text-white font-semibold hover:bg-pink-600"
+            className={`mt-8 w-full py-3 rounded-xl ${theme.primary} text-white font-semibold`}
           >
             Submit Answer
           </button>
@@ -65,7 +77,7 @@ export default function QuizPage() {
               <div
                 key={i}
                 className={`text-sm px-3 py-2 rounded-xl max-w-[90%]
-                  ${msg.user === 'You' ? 'bg-pink-100 ml-auto text-right' : 'bg-white'}
+                  ${msg.user === 'You' ? `${theme.highlight} ml-auto text-right` : 'bg-white'}
                 `}
               >
                 <span className="block font-semibold text-xs text-slate-500">{msg.user}</span>
@@ -89,12 +101,9 @@ export default function QuizPage() {
               value={chatInput}
               onChange={(e) => setChatInput(e.target.value)}
               placeholder="Type a message..."
-              className="flex-1 px-3 py-2 rounded-xl border focus:outline-none focus:ring-2 focus:ring-pink-300"
+              className={`flex-1 px-3 py-2 rounded-xl border focus:outline-none focus:ring-2 ${theme.ring}`}
             />
-            <button
-              onClick={sendMessage}
-              className="px-4 rounded-xl bg-pink-500 text-white font-semibold hover:bg-pink-600"
-            >
+            <button onClick={sendMessage} className={`px-4 rounded-xl ${theme.primary} text-white font-semibold`}>
               Send
             </button>
           </div>

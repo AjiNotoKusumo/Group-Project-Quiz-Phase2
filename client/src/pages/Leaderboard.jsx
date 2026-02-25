@@ -1,7 +1,11 @@
 import { useNavigate } from 'react-router';
+import { useContext } from 'react';
+import { motion } from 'framer-motion';
+import { ThemeContext } from '../context/ThemeContext';
 
 export default function LeaderboardPage() {
   const navigate = useNavigate();
+  const { theme, toggleTheme, currentTheme } = useContext(ThemeContext);
 
   const players = [
     { name: 'Alice', score: 1200 },
@@ -10,7 +14,14 @@ export default function LeaderboardPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 flex items-center justify-center">
+    <div className={`min-h-screen ${theme.background} flex items-center justify-center`}>
+      {/* Theme Toggle Button */}
+      <button
+        onClick={toggleTheme}
+        className={`fixed top-6 right-6 px-6 py-3 rounded-full ${theme.accent} text-white font-semibold shadow-lg z-50 transition-all hover:scale-105`}
+      >
+        {currentTheme === 'blue' ? '💙 Blue' : '💗 Pink'}
+      </button>
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -34,7 +45,7 @@ export default function LeaderboardPage() {
 
         <button
           onClick={() => navigate('/')}
-          className="mt-8 w-full py-3 rounded-xl bg-indigo-500 text-white font-semibold"
+          className={`mt-8 w-full py-3 rounded-xl ${theme.primary} text-white font-semibold`}
         >
           Play Again
         </button>

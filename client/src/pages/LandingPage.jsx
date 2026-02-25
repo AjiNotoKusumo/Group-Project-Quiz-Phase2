@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, Zap, Trophy, Users, ArrowRight } from 'lucide-react';
+import { ThemeContext } from '../context/ThemeContext';
 
 /* ================= DATA ================= */
 const images = [
@@ -15,18 +16,42 @@ const images = [
 
 /* ================= LANDING PAGE ================= */
 export default function LandingPage() {
+  const { theme, currentTheme, toggleTheme } = useContext(ThemeContext);
+
+  // Define glow colors based on theme
+  const glowColor1 = currentTheme === 'blue' ? 'cyan-600/30' : 'pink-600/30';
+  const glowColor2 = currentTheme === 'blue' ? 'indigo-600/30' : 'fuchsia-600/30';
+  const badgeBorder = currentTheme === 'blue' ? 'border-cyan-500/30' : 'border-pink-500/30';
+  const badgeBg = currentTheme === 'blue' ? 'bg-cyan-500/10' : 'bg-pink-500/10';
+  const badgeText = currentTheme === 'blue' ? 'text-cyan-300' : 'text-pink-300';
+  const badgeShadow =
+    currentTheme === 'blue' ? 'shadow-[0_0_15px_rgba(6,182,212,0.2)]' : 'shadow-[0_0_15px_rgba(236,72,153,0.2)]';
+  const gradientText =
+    currentTheme === 'blue' ? 'from-cyan-400 via-blue-500 to-indigo-500' : 'from-pink-400 via-rose-500 to-fuchsia-500';
+  const buttonShadow =
+    currentTheme === 'blue'
+      ? 'shadow-[0_0_50px_rgba(255,255,255,0.35)] hover:shadow-[0_0_80px_rgba(6,182,212,0.6)]'
+      : 'shadow-[0_0_50px_rgba(255,255,255,0.35)] hover:shadow-[0_0_80px_rgba(236,72,153,0.6)]';
+
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#050511] text-white font-sans selection:bg-cyan-500 selection:text-white">
+      {/* Theme Toggle Button */}
+      <button
+        onClick={toggleTheme}
+        className={`fixed top-6 right-6 px-6 py-3 rounded-full ${currentTheme === 'blue' ? 'bg-cyan-500 hover:bg-cyan-600' : 'bg-pink-500 hover:bg-pink-600'} text-white font-semibold shadow-lg z-50 transition-all hover:scale-105`}
+      >
+        {currentTheme === 'blue' ? '💙 Blue' : '💗 Pink'}
+      </button>
       {/* AMBIENT GLOWS */}
       <motion.div
         animate={{ scale: [1, 1.2, 1], opacity: [0.25, 0.45, 0.25] }}
         transition={{ repeat: Infinity, duration: 8, ease: 'easeInOut' }}
-        className="absolute -top-[20%] -left-[10%] w-[600px] h-[600px] bg-cyan-600/30 rounded-full blur-[120px] pointer-events-none"
+        className={`absolute -top-[20%] -left-[10%] w-[600px] h-[600px] bg-${glowColor1} rounded-full blur-[120px] pointer-events-none`}
       />
       <motion.div
         animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
         transition={{ repeat: Infinity, duration: 10, ease: 'easeInOut' }}
-        className="absolute top-[40%] -right-[10%] w-[500px] h-[500px] bg-indigo-600/30 rounded-full blur-[120px] pointer-events-none"
+        className={`absolute top-[40%] -right-[10%] w-[500px] h-[500px] bg-${glowColor2} rounded-full blur-[120px] pointer-events-none`}
       />
 
       {/* HERO SECTION */}
@@ -35,7 +60,7 @@ export default function LandingPage() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, type: 'spring', bounce: 0.4 }}
-          className="mb-6 px-4 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-300 text-sm font-semibold uppercase tracking-wide shadow-[0_0_15px_rgba(6,182,212,0.2)]"
+          className={`mb-6 px-4 py-1.5 rounded-full border ${badgeBorder} ${badgeBg} ${badgeText} text-sm font-semibold uppercase tracking-wide ${badgeShadow}`}
         >
           Welcome to the Arena
         </motion.div>
@@ -47,7 +72,7 @@ export default function LandingPage() {
           className="text-7xl md:text-9xl font-black tracking-tighter"
         >
           QUIZZY
-          <span className="block mt-3 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 drop-shadow-lg">
+          <span className={`block mt-3 text-transparent bg-clip-text bg-gradient-to-r ${gradientText} drop-shadow-lg`}>
             Realtime Knowledge.
           </span>
         </motion.h1>
@@ -65,7 +90,7 @@ export default function LandingPage() {
         <motion.button
           whileHover={{ scale: 1.06 }}
           whileTap={{ scale: 0.97 }}
-          className="group mt-12 px-12 py-5 rounded-full bg-white text-indigo-950 font-extrabold text-xl shadow-[0_0_50px_rgba(255,255,255,0.35)] hover:shadow-[0_0_80px_rgba(6,182,212,0.6)] transition-all duration-300"
+          className={`group mt-12 px-12 py-5 rounded-full bg-white text-indigo-950 font-extrabold text-xl ${buttonShadow} transition-all duration-300`}
         >
           Enter Experience
           <ArrowRight className="inline ml-3 group-hover:translate-x-2 transition-transform duration-300" />

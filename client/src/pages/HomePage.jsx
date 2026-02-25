@@ -1,13 +1,23 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router';
+import { motion } from 'framer-motion';
+import { ThemeContext } from '../context/ThemeContext';
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const { theme, toggleTheme, currentTheme } = useContext(ThemeContext);
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-200 via-purple-200 to-indigo-200 flex items-center justify-center">
+    <div className={`min-h-screen ${theme.background} flex items-center justify-center`}>
+      {/* Theme Toggle Button */}
+      <button
+        onClick={toggleTheme}
+        className={`fixed top-6 right-6 px-6 py-3 rounded-full ${theme.accent} text-white font-semibold shadow-lg z-50 transition-all hover:scale-105`}
+      >
+        {currentTheme === 'blue' ? '💙 Blue' : '💗 Pink'}
+      </button>
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -31,14 +41,14 @@ export default function HomePage() {
 
         <button
           onClick={() => navigate('/quiz')}
-          className="w-full py-3 mb-3 rounded-xl bg-indigo-500 text-white font-semibold hover:bg-indigo-600 transition"
+          className={`w-full py-3 mb-3 rounded-xl ${theme.primary} text-white font-semibold transition`}
         >
           🚀 Join Quiz
         </button>
 
         <button
           onClick={() => navigate('/host')}
-          className="w-full py-3 rounded-xl bg-pink-500 text-white font-semibold hover:bg-pink-600 transition"
+          className={`w-full py-3 rounded-xl ${theme.secondary} text-white font-semibold transition`}
         >
           🎤 Host a Quiz
         </button>
