@@ -5,7 +5,10 @@ const { createServer } = require("http");
 const { Server } = require("socket.io");
 const port = 3000
 const Controller = require('./Controller/controller')
-const cors = require('cors')
+const cors = require('cors');
+const { default: baseUrl } = require('./constant/baseUrl');
+const axios = require('axios');
+const {startRoomTimer, handleRoundEnd} = require('./helpers/startTimer');
 
 app.use(cors())
 
@@ -15,7 +18,7 @@ app.use(express.urlencoded({extended:true}))
 
 app.get('/categories', Controller.getCategories)
 app.get('/categories/:id', Controller.getQuestions)
-app.post('/generate-hint', Controller.generateHint)
+app.post('/generate-hint/:id', Controller.generateHint)
 
 
 const httpServer = createServer(app);
@@ -30,6 +33,11 @@ const activeRooms = {};
 io.on("connection", async (socket) => {
     
     socket.on("create-room", (roomData) => {
+        if(!roomData.roomName || !roomData.maxPlayer || !roomData.hostName || !roomData.category) {
+            socket.emit("room-creation-failed", 'All fields are required')
+            return
+        }
+
         const roomCode = Math.random().toString(36).substring(2, 7).toUpperCase()
         roomData.roomCode = roomCode
         
@@ -37,8 +45,16 @@ io.on("connection", async (socket) => {
             roomName: roomData.roomName,
             maxPlayer: roomData.maxPlayer,
             category: roomData.category,
-            hostname: roomData.hostName,
-            players: [roomData.hostName]
+            hostName: roomData.hostName,
+            players: [{
+                name: roomData.hostName,
+                score:0
+            }],
+            currentQuestion: {
+                answer: "Option A",
+                correctCount: 0, // This resets every question
+                answeredPlayers: new Set() // Tracks who has already submitted
+            }
         }
 
         socket.join(roomCode)
@@ -73,7 +89,7 @@ io.on("connection", async (socket) => {
             return
         }
             
-        activeRooms[roomCode].players.push(name)
+        activeRooms[roomCode].players.push({name, score:0})
 
         socket.join(roomCode)
 
@@ -84,8 +100,77 @@ io.on("connection", async (socket) => {
     })
 
 
-    socket.on("start-quiz", (roomCode) => {
-        io.to(roomCode).emit("quiz-started")
+    socket.on("start-quiz", async (roomCode) => {
+        if (activeRooms[roomCode]) {
+            activeRooms[roomCode].isStarted = true;
+            io.to(roomCode).emit("quiz-started");
+        }
+    })
+
+    socket.on("get-quiz-data", async (roomCode) => {
+        try{
+            const room = activeRooms[roomCode];
+            if (!room) return;
+            
+            io.to(roomCode).emit('loading', true)
+
+            const {data} = await axios.get(`${baseUrl}/categories/${room.category}`)
+            const {data: hintData} = await axios.post(`${baseUrl}/generate-hint/${room.category}`,{})
+            
+            room.hint = hintData.hint;
+            room.questions = data.Questions; 
+            room.currentIndex = 0;
+
+            room.currentQuestion.answer = room.questions[room.currentIndex].answer
+
+            io.to(roomCode).emit("quiz-data", data.Questions[room.currentIndex])
+
+            io.to(roomCode).emit("hint-data", hintData.hint[room.currentIndex])
+
+            if (!room.intervalId) {
+                startRoomTimer(io, roomCode, activeRooms);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        
+    })
+
+    socket.on("submit-answer", ({roomCode, playerName, answer}) => {
+        const room = activeRooms[roomCode];
+        if (!room || room.currentQuestion.answeredPlayers.has(playerName)) return;
+
+        room.currentQuestion.answeredPlayers.add(playerName);
+
+        const isCorrect = answer === room.currentQuestion.answer;
+        let pointsEarned = 0;
+
+        if (isCorrect) {
+            const basePoints = 1000;
+            const penalty = room.currentQuestion.correctCount * 200;
+            pointsEarned = Math.max(200, basePoints - penalty); // Min 200 pts
+
+            const player = room.players.find(p => p.name === playerName);
+
+            if (player) {
+                player.score += pointsEarned;
+            }
+
+            room.currentQuestion.correctCount++;
+        }
+
+        const player = room.players.find(p => p.name === playerName);
+        socket.emit("answer-result", { isCorrect, pointsEarned, totalScore: player.score });
+
+        if (room.currentQuestion.answeredPlayers.size === room.players.length) {
+            if (room.intervalId) {
+                clearInterval(room.intervalId);
+                room.intervalId = null;
+            }
+            
+            handleRoundEnd(io, roomCode, activeRooms);
+        }
+
     })
 
     socket.on("message-new", (messageData) => {
@@ -94,6 +179,14 @@ io.on("connection", async (socket) => {
             from: messageData.name,
             message: messageData.message,
         })
+    })
+
+    socket.on("get-final-leaderboard", (roomCode) => {
+        const room = activeRooms[roomCode];
+        if (!room) return;
+
+        const finalLeaderboard = room.players.sort((a, b) => b.score - a.score);
+        socket.emit("final-leaderboard", finalLeaderboard)
     })
 })
 

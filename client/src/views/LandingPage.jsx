@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, Zap, Trophy, Users, ArrowRight } from 'lucide-react';
 import { ThemeContext } from '../context/ThemeContext';
+import { useNavigate } from 'react-router';
 
 /* ================= DATA ================= */
 const images = [
@@ -16,6 +17,7 @@ const images = [
 
 /* ================= LANDING PAGE ================= */
 export default function LandingPage() {
+  const navigate = useNavigate()
   const { theme, currentTheme, toggleTheme } = useContext(ThemeContext);
 
   // Define glow colors based on theme
@@ -90,6 +92,7 @@ export default function LandingPage() {
         <motion.button
           whileHover={{ scale: 1.06 }}
           whileTap={{ scale: 0.97 }}
+          onClick={() => navigate('/home')}
           className={`group mt-12 px-12 py-5 rounded-full bg-white text-indigo-950 font-extrabold text-xl ${buttonShadow} transition-all duration-300`}
         >
           Enter Experience

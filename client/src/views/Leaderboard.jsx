@@ -1,17 +1,31 @@
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useContext } from 'react';
 import { motion } from 'framer-motion';
 import { ThemeContext } from '../context/ThemeContext';
+import { useEffect } from 'react';
+import { socket } from '../constant/socket';
+import { useState } from 'react';
 
 export default function LeaderboardPage() {
   const navigate = useNavigate();
   const { theme, toggleTheme, currentTheme } = useContext(ThemeContext);
+  const {id} = useParams()
+  const [players, setPlayers] = useState([])
 
-  const players = [
-    { name: 'Alice', score: 1200 },
-    { name: 'You 🎉', score: 950 },
-    { name: 'Bob', score: 700 },
-  ];
+  useEffect(() => {
+    socket.connect()
+
+    socket.emit("get-final-leaderboard", id)
+
+    socket.on("final-leaderboard", (finalLeaderboard) => {
+        console.log(finalLeaderboard);
+        setPlayers(finalLeaderboard)
+    })
+
+    return () => {
+        socket.off("final-leaderboard")
+    }
+  }, [])
 
   return (
     <div className={`min-h-screen ${theme.background} flex items-center justify-center`}>
@@ -44,7 +58,7 @@ export default function LeaderboardPage() {
         </ul>
 
         <button
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/home')}
           className={`mt-8 w-full py-3 rounded-xl ${theme.primary} text-white font-semibold`}
         >
           Play Again
