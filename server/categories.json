@@ -1,0 +1,114 @@
+[
+  {
+    "name": "General Knowledge",
+    "description": "Mixed general trivia",
+    "imageUrl": "https://e7.pngegg.com/pngimages/430/481/png-clipart-knowledge-management-knowledge-worker-learning-infographic-poster-text-innovation-thumbnail.png"
+  },
+  {
+    "name": "World Facts",
+    "description": "Interesting facts from around the world",
+    "imageUrl": "https://image.pngaaa.com/696/1216696-middle.png"
+
+  },
+  {
+    "name": "World Geography",
+    "description": "Countries, cities, and landmarks",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1a8rnkwFmyyFErPexBNYBPMaNp46y0dhogw&s"
+    
+  },
+  {
+    "name": "Capital Cities",
+    "description": "Capitals of the world",
+    "imageUrl": "https://www.shutterstock.com/image-illustration/world-capital-cities-flags-signpost-260nw-244026214.jpg"
+  },
+  {
+    "name": "Flags of the World",
+    "description": "Identify countries by their flags",
+    "imageUrl": "https://thumbs.dreamstime.com/b/world-flags-sovereign-state-clip-art-vector-globe-flag-clipart-symbolize-planet-earth-humankind-sphere-icon-different-294490311.jpg"
+  },
+  {
+    "name": "World History",
+    "description": "Major historical events",
+    "imageUrl": "https://png.pngtree.com/png-vector/20240309/ourmid/pngtree-history-learn-educational-lesson-landing-header-vector-png-image_11900364.png"
+  },
+  {
+    "name": "Ancient Civilizations",
+    "description": "History of ancient societies",
+    "imageUrl": "https://png.pngtree.com/png-clipart/20200701/original/pngtree-pyramid-nile-egypt-png-image_5424069.jpg"
+  },
+  {
+    "name": "Indonesian History",
+    "description": "Historical events in Indonesia",
+    "imageUrl": "https://thumbs.dreamstime.com/b/fighters-proclamation-august-indonesia-s-independence-253926186.jpg"
+  },
+  {
+    "name": "General Science",
+    "description": "Basic science knowledge",
+    "imageUrl": "https://static.vecteezy.com/system/resources/previews/010/444/758/non_2x/clipart-isolated-element-atom-module-back-to-school-science-chemistry-test-free-vector.jpg"
+  },
+  {
+    "name": "Physics",
+    "description": "Motion, energy, and forces",
+    "imageUrl": "https://thumbs.dreamstime.com/b/physics-science-flat-design-laboratory-equipment-emblem-vector-illustration-39802815.jpg"
+  },
+  {
+    "name": "Biology",
+    "description": "Living organisms and life",
+    "imageUrl": "https://img.freepik.com/premium-vector/biology-illustration_611881-429.jpg?semt=ais_user_personalization&w=740&q=80"
+  },
+  {
+    "name": "Space & Astronomy",
+    "description": "Planets, stars, and the universe",
+    "imageUrl": "https://t4.ftcdn.net/jpg/14/32/13/09/360_F_1432130982_3hOTTSQQIHa3IAmM6n5j73PPHBRNx9Lz.jpg"
+  },
+  {
+    "name": "Technology",
+    "description": "Modern tech and innovations",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRB-_jRYA-hXOK_OxkL16KuNgXoPeG9cJIOTA&s"
+  },
+  {
+    "name": "Programming Basics",
+    "description": "Fundamental programming concepts",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqWqgv_qy_4-0yK6Xe1tvFxBpYjGmapm0dsQ&s"
+  },
+  {
+    "name": "Web Development",
+    "description": "HTML, CSS, JavaScript, and the web",
+    "imageUrl": "https://png.pngtree.com/png-clipart/20250102/original/pngtree-web-development-illustration-modern-png-image_4461019.png"
+  },
+  {
+    "name": "Movies",
+    "description": "Films and cinema trivia",
+    "imageUrl": "https://media.istockphoto.com/id/1023946126/vector/big-movie-reel-open-clapper-board-popcorn-box-package-ticket-admit-one-three-star-cinema.jpg?s=612x612&w=0&k=20&c=_f9dhpn1WUxbLsxXWuJb0jhmn4dBS2yAEa2TVIkn70E="
+  },
+  {
+    "name": "Music",
+    "description": "Songs, artists, and albums",
+    "imageUrl": "https://png.pngtree.com/png-vector/20220813/ourmid/pngtree-musical-notes-staff-colored-clip-art-png-image_6108111.png"
+  },
+  {
+    "name": "Anime & Cartoons",
+    "description": "Animated shows and movies",
+    "imageUrl": "https://www.pngfind.com/pngs/m/660-6603176_characters-png-for-all-my-favorite-anime-characters.png"
+  },
+  {
+    "name": "Soccer",
+    "description": "The beautiful game",
+    "imageUrl": "https://i.pinimg.com/736x/1d/87/a0/1d87a0ef22d3a96087bca6422e6e97e0.jpg"
+  },
+  {
+    "name": "Olympic Games",
+    "description": "Olympic sports and history",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQChffIwnhH8IOfNGws_uPjgUcCIPkAQAArLQ&s"
+  },
+  {
+    "name": "Random Facts",
+    "description": "Fun and unexpected trivia",
+    "imageUrl": "https://media.istockphoto.com/id/1725464486/vector/classic-wheel-of-fortune.jpg?s=612x612&w=0&k=20&c=uHfIhvk2FJo_vqib57Oqi6ZXAOrGjGeOhP6J-SHBa8o="
+  },
+  {
+    "name": "Riddles",
+    "description": "Logic puzzles and riddles",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8eoetHUmpnfJJaYN6kRiXwtKkC3qeWKWAlw&s"
+  }
+]
