@@ -1,1 +1,1 @@
-# Group Project Quiz API Documentation
+# Quizzy API Documentation
